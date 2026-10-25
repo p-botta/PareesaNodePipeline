@@ -107,15 +107,14 @@ jobs:
             -p 3000:3000 \
             "${IMAGE_NAME}:${GITHUB_SHA}"
       
-      - name: Debug
+      - name: debug
         run: |
-           SERVER_PORT=$(docker port app 80 | awk -F ':' '{print $2}')
-            echo "The server host port is: $SERVER_PORT"
+          echo "=== DEBUG: Listing all listening ports ==="netstat -tlnp || ss -tlnu || lsof -i -P -n | grep LISTEN
 
       - name: Check health endpoint
         run: |
           for i in $(seq 1 15); do
-            if curl -fsS http://localhost:8080/health; then
+            if curl -fsS http://localhost:3000/health; then
               echo
               echo "Smoke test passed"
               exit 0
