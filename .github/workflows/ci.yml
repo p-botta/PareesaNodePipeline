@@ -109,7 +109,8 @@ jobs:
       
       - name: debug
         run: |
-          echo "=== DEBUG: Listing all listening ports ==="netstat -tlnp || ss -tlnu || lsof -i -P -n | grep LISTEN
+          echo "=== DEBUG: Checking health check targets ==="
+          echo "PORT variable is: $PORT"    
 
       - name: Check health endpoint
         run: |
