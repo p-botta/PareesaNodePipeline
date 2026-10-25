@@ -27,7 +27,7 @@ jobs:
         run: npm run lint
       
       - name: Debug modules issue
-        run: ls -la /src
+        run: ls -la src/
 
       - name: Run tests
         run: npm test
