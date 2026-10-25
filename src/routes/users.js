@@ -11,7 +11,7 @@ router.get('/', (req, res) => {
 
 router.post(
   '/',
-  body('username').notEmpty().withMessage('Name is required'),
+  body('name').notEmpty().withMessage('Name is required'),
   (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
