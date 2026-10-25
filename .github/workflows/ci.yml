@@ -115,7 +115,7 @@ jobs:
       - name: Check health endpoint
         run: |
           for i in $(seq 1 15); do
-            if curl -fsS http://localhost:3000/health; then
+            if curl -fsS http://localhost:8080/health; then
               echo
               echo "Smoke test passed"
               exit 0
