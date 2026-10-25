@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-const healthRouter = require('./routes/health');
+const healthRouter = require('./routes/Health');
 const usersRouter = require('./routes/users');
 
 app.use(express.json());

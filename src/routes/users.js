@@ -4,6 +4,7 @@ const { body, validationResult } = require('express-validator');
 const router = express.Router();
 
 const users = [];
+const MAX_USERS = 100;
 
 router.get('/', (req, res) => {
   res.status(200).json({ users });
@@ -11,7 +12,7 @@ router.get('/', (req, res) => {
 
 router.post(
   '/',
-  body('name').notEmpty().withMessage('Name is required'),
+  body('username').notEmpty().withMessage('Name is required'),
   (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
