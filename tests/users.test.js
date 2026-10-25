@@ -11,7 +11,7 @@ describe('Users API', () => {
   it('should create a new user', async () => {
     const res = await request(app)
       .post('/users')
-      .send({ name: 'Alice', id: 1234 });
+      .send({ name: 'Alice', id: 1 });
     expect(res.statusCode).toBe(201);
     expect(res.body).toHaveProperty('id');
     expect(res.body.name).toBe('Alice');
