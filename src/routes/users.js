@@ -4,7 +4,6 @@ const { body, validationResult } = require('express-validator');
 const router = express.Router();
 
 const users = [];
-const MAX_USERS = 100;
 
 router.get('/', (req, res) => {
   res.status(200).json({ users });
