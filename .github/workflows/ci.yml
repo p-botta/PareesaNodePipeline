@@ -8,6 +8,7 @@ on:
 
 permissions:
   contents: read
+  
 
 env:
   NODE_VERSION: '18'
@@ -146,6 +147,9 @@ jobs:
     runs-on: ubuntu-latest
     name: Post Coverage Summary
     needs: test
+    permissions:
+      pull-requests: write 
+      contents: read
     if: github.event_name == 'pull_request'
 
     steps:
