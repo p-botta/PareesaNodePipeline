@@ -113,7 +113,7 @@ jobs:
       - name: Debug
         run: |
           echo "Checking env vars IMAGE_TAG: $IMAGE_TAG"
-
+          echo "Checking output: $build.outputs.image_tag "
 
       - name: Start container
         run: |
