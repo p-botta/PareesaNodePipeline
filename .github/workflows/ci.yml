@@ -11,7 +11,7 @@ permissions:
   
 
 env:
-  NODE_VERSION: '18'
+  NODE_VERSION: '20'
   IMAGE_NAME: ci-cd-demo
   PORT: 8080
 
@@ -21,7 +21,7 @@ jobs:
     name: Lint, Test and Integration Check (Node ${{ matrix.node-version }})
     strategy:
       matrix:
-        node-version: ['18', '20']
+        node-version: ['20', '22']
 
     steps:
       - name: Checkout repository
