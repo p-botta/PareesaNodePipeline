@@ -135,6 +135,14 @@ jobs:
             -e PORT \
             -p "${PORT}:${PORT}" \
             "${IMAGE_NAME}:${IMAGE_TAG}"
+      
+      - name: Debug container
+        run: |
+          sleep 3
+          echo "--- docker ps -a ---"
+          docker ps -a
+          echo "--- docker logs ---"
+          docker logs app
 
       - name: Run smoke tests
         run: |
