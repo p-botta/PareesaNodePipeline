@@ -84,15 +84,17 @@ jobs:
         run: |
             echo "short_sha=${GITHUB_SHA::7}" >> "$GITHUB_OUTPUT" 
             cat "$GITHUB_OUTPUT"
+            export IMAGE_REF="${IMAGE_NAME}:${GITHUB_SHA::7}"
+            echo "Image reference: ${IMAGE_REF}"
 
       - name: Build image
         run: |
           docker build \
             --build-arg APP_VERSION=${{ steps.meta.outputs.short_sha }} \
-            -t "${IMAGE_NAME}:${{ steps.meta.outputs.short_sha }}" .
+            -t "${IMAGE_REF}" .
 
       - name: Export image
-        run: docker save "${IMAGE_NAME}:${{ steps.meta.outputs.short_sha }}" -o image.tar
+        run: docker save "${IMAGE_REF}" -o image.tar
 
       - name: Upload image artifact
         uses: actions/upload-artifact@v4

@@ -1,13 +1,17 @@
-FROM node:20-alpine
-
-
-
+# --- Install production dependencies ---
+FROM node:20-alpine AS deps
 
 WORKDIR /app
 
 COPY package*.json ./
 RUN npm ci --omit=dev
 
+# --- Runtime image ---
+FROM node:20-alpine
+
+WORKDIR /usr/src/app
+
+COPY --from=deps /app/node_modules /app/node_modules
 COPY . .
 
 ARG APP_VERSION=dev
