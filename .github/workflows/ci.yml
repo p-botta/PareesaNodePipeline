@@ -111,6 +111,8 @@ jobs:
       IMAGE_TAG: ${{ needs.build.outputs.image_tag }}
 
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
       - name: Download image artifact
         uses: actions/download-artifact@v4
