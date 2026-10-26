@@ -6,7 +6,19 @@ const router = express.Router();
 const users = [];
 
 router.get('/', (req, res) => {
+  if (req.query.sort === 'name') {
+    const sorted = users.toSorted((a, b) => a.name.localeCompare(b.name));
+    return res.status(200).json({ users: sorted });
+  }
   res.status(200).json({ users });
+});
+
+router.get('/:id', (req, res) => {
+  const user = users.find((u) => u.id === Number(req.params.id));
+  if (!user) {
+    return res.status(404).json({ error: 'User not found' });
+  }
+  res.status(200).json(user);
 });
 
 router.post(

@@ -11,7 +11,7 @@ describe('Users API', () => {
   it('should create a new user', async () => {
     const res = await request(app)
       .post('/users')
-      .send({ name: 'Alice' });
+      .send({ name: 'Alice', id: 1 });
     expect(res.statusCode).toBe(201);
     expect(res.body).toHaveProperty('id');
     expect(res.body.name).toBe('Alice');
@@ -21,5 +21,27 @@ describe('Users API', () => {
     const res = await request(app).post('/users').send({});
     expect(res.statusCode).toBe(400);
     expect(res.body.errors[0].msg).toBe('Name is required');
+  });
+
+  it('should fetch a user by id', async () => {
+    const created = await request(app).post('/users').send({ name: 'Bob' });
+    const res = await request(app).get(`/users/${created.body.id}`);
+    expect(res.statusCode).toBe(200);
+    expect(res.body.name).toBe('Bob');
+  });
+
+  it('should return 404 for an unknown user', async () => {
+    const res = await request(app).get('/users/999');
+    expect(res.statusCode).toBe(404);
+  });
+
+  it('should return users sorted by name', async () => {
+    await request(app).post('/users').send({ name: 'Zed' });
+    await request(app).post('/users').send({ name: 'Amy' });
+    const res = await request(app).get('/users?sort=name');
+    expect(res.statusCode).toBe(200);
+    const names = res.body.users.map((u) => u.name);
+    expect(names).toEqual([...names].sort((a, b) => a.localeCompare(b)));
+    expect(names[0]).toBe('Alice');
   });
 });
