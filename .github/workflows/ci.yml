@@ -68,7 +68,7 @@ jobs:
     name: Build Docker Image
     needs: test
     outputs:
-      image_tag: ${{ steps.vars.outputs.short_sha }}
+      image_tag: ${{ steps.meta.outputs.short_sha }}
 
     steps:
       - name: Checkout repository
