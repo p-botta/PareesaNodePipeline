@@ -97,6 +97,7 @@ jobs:
       - name: Debug
         run: |
           echo "image tag: ${{ steps.vars.outputs.short_sha }}"
+          echo "github output $GITHUB_OUTPUT"
 
 
   smoke-test:
