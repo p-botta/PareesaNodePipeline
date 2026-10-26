@@ -30,4 +30,8 @@ if [ "${ACTUAL_VERSION}" != "${IMAGE_TAG}" ]; then
   exit 1
 fi
 
+echo "Checking ${BASE_URL}/users?sort=name ..."
+curl -fsS "${BASE_URL}/users?sort=name"
+echo
+
 echo "All smoke tests passed"

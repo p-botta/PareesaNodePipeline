@@ -34,4 +34,14 @@ describe('Users API', () => {
     const res = await request(app).get('/users/999');
     expect(res.statusCode).toBe(404);
   });
+
+  it('should return users sorted by name', async () => {
+    await request(app).post('/users').send({ name: 'Zed' });
+    await request(app).post('/users').send({ name: 'Amy' });
+    const res = await request(app).get('/users?sort=name');
+    expect(res.statusCode).toBe(200);
+    const names = res.body.users.map((u) => u.name);
+    expect(names).toEqual([...names].sort((a, b) => a.localeCompare(b)));
+    expect(names[0]).toBe('Alice');
+  });
 });

@@ -6,6 +6,10 @@ const router = express.Router();
 const users = [];
 
 router.get('/', (req, res) => {
+  if (req.query.sort === 'name') {
+    const sorted = users.toSorted((a, b) => a.name.localeCompare(b.name));
+    return res.status(200).json({ users: sorted });
+  }
   res.status(200).json({ users });
 });
 
