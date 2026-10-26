@@ -87,10 +87,6 @@ jobs:
             export IMAGE_REF="${IMAGE_NAME}:${GITHUB_SHA::7}" 
             echo "IMAGE_REF=${IMAGE_REF}" >> "$GITHUB_ENV"
             echo "Image reference: ${IMAGE_REF}"
-      
-      - name: Debug 
-        run: 
-          echo "Image REF bebug ${IMAGE_REF}"
 
       - name: Build image
         run: |

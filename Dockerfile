@@ -11,7 +11,7 @@ FROM node:20-alpine
 
 WORKDIR /usr/src/app
 
-COPY --from=deps /app/node_modules /app/node_modules
+COPY --from=deps /app/node_modules /usr/src/app/node_modules
 COPY . .
 
 ARG APP_VERSION=dev
