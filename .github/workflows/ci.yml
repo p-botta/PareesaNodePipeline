@@ -93,6 +93,11 @@ jobs:
           name: docker-image
           path: image.tar
           retention-days: 1
+      
+      - name: Debug
+        run: |
+          echo "image tag: ${{ steps.vars.outputs.short_sha }}"
+
 
   smoke-test:
     runs-on: ubuntu-latest
