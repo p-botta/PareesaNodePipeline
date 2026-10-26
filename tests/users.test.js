@@ -22,4 +22,16 @@ describe('Users API', () => {
     expect(res.statusCode).toBe(400);
     expect(res.body.errors[0].msg).toBe('Name is required');
   });
+
+  it('should fetch a user by id', async () => {
+    const created = await request(app).post('/users').send({ name: 'Bob' });
+    const res = await request(app).get(`/users/${created.body.id}`);
+    expect(res.statusCode).toBe(200);
+    expect(res.body.name).toBe('Bob');
+  });
+
+  it('should return 404 for an unknown user', async () => {
+    const res = await request(app).get('/users/999');
+    expect(res.statusCode).toBe(404);
+  });
 });

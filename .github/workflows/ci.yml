@@ -36,7 +36,7 @@ jobs:
         run: npm run lint
 
       - name: Run tests with coverage
-        run: npm run test:coverage
+        run: npm run test:coverage 2>&1 | tee test-results.txt
 
       - name: Integration check against local server
         run: |
@@ -67,16 +67,25 @@ jobs:
     runs-on: ubuntu-latest
     name: Build Docker Image
     needs: test
+    outputs:
+      image_tag: ${{ steps.vars.outputs.short_sha }}
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Compute image metadata
+        id: meta
+        run: echo "short_sha=${GITHUB_SHA::7}" >> "$GITHUB_OUTPUT"
+
       - name: Build image
-        run: docker build -t "${IMAGE_NAME}:${GITHUB_SHA}" .
+        run: |
+          docker build \
+            --build-arg APP_VERSION=${{ steps.meta.outputs.short_sha }} \
+            -t "${IMAGE_NAME}:${{ steps.meta.outputs.short_sha }}" .
 
       - name: Export image
-        run: docker save "${IMAGE_NAME}:${GITHUB_SHA}" -o image.tar
+        run: docker save "${IMAGE_NAME}:${{ steps.meta.outputs.short_sha }}" -o image.tar
 
       - name: Upload image artifact
         uses: actions/upload-artifact@v4
@@ -89,6 +98,8 @@ jobs:
     runs-on: ubuntu-latest
     name: Smoke Test Container
     needs: build
+    env:
+      IMAGE_TAG: ${{ needs.build.outputs.image_tag }}
 
     steps:
       - name: Download image artifact
@@ -105,7 +116,7 @@ jobs:
             -e NODE_ENV=production \
             -e PORT \
             -p "${PORT}:${PORT}" \
-            "${IMAGE_NAME}:${GITHUB_SHA}" 
+            "${IMAGE_NAME}:${IMAGE_TAG}"
 
       - name: Check health endpoint
         run: |
@@ -121,6 +132,16 @@ jobs:
           echo "Smoke test failed after 15 attempts"
           docker ps -a
           exit 1
+
+      - name: Verify deployed version
+        run: |
+          ACTUAL_VERSION=$(curl -fsS "http://localhost:${PORT}/version" | jq -r .version)
+          echo "Expected version: ${IMAGE_TAG}"
+          echo "Running version:  ${ACTUAL_VERSION}"
+          if [ "${ACTUAL_VERSION}" != "${IMAGE_TAG}" ]; then
+            echo "::error::Deployed container is not running the expected build"
+            exit 1
+          fi
 
       - name: Stop container
         if: always()

@@ -9,6 +9,14 @@ router.get('/', (req, res) => {
   res.status(200).json({ users });
 });
 
+router.get('/:id', (req, res) => {
+  const user = users.find((u) => u.id === req.params.id);
+  if (!user) {
+    return res.status(404).json({ error: 'User not found' });
+  }
+  res.status(200).json(user);
+});
+
 router.post(
   '/',
   body('name').notEmpty().withMessage('Name is required'),
