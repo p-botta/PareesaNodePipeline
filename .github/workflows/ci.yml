@@ -86,6 +86,11 @@ jobs:
             cat "$GITHUB_OUTPUT"
             export IMAGE_REF="${IMAGE_NAME}:${GITHUB_SHA::7}"
             echo "Image reference: ${IMAGE_REF}"
+      
+      - name: Debug 
+        run: 
+          echo "Image REF bebug ${IMAGE_REF}"
+
 
       - name: Build image
         run: |
@@ -102,11 +107,6 @@ jobs:
           name: docker-image
           path: image.tar
           retention-days: 1
-      
-      - name: Debug
-        run: |
-          echo "image tag: ${{ steps.vars.outputs.short_sha }}"
-          echo "github output $GITHUB_OUTPUT"
 
 
   smoke-test:
