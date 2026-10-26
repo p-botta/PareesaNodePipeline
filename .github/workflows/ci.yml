@@ -146,7 +146,7 @@ jobs:
     runs-on: ubuntu-latest
     name: Post Coverage Summary
     needs: test
-    if: github.event_name == 'pull-request'
+    if: github.event_name == 'pull_request'
 
     steps:
       - name: Download coverage report
