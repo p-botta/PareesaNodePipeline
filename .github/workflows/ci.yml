@@ -111,10 +111,6 @@ jobs:
       IMAGE_TAG: ${{ needs.build.outputs.image_tag }}
 
     steps:
-      - name: Step One
-        run: |
-          echo "Step 1 can see it: $IMAGE_TAG"
-          echo "Checking output: ${{ needs.build.outputs.image_tag }}"
 
       - name: Download image artifact
         uses: actions/download-artifact@v4
@@ -133,7 +129,7 @@ jobs:
             "${IMAGE_NAME}:${IMAGE_TAG}"
 
       - name: Run smoke tests
-        run: ./scripts/smoke-test.sh
+        run: chmod +x ./scripts/smoke-test.sh
 
       - name: Stop container
         if: always()
