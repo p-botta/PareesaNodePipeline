@@ -129,7 +129,10 @@ jobs:
             "${IMAGE_NAME}:${IMAGE_TAG}"
 
       - name: Run smoke tests
-        run: chmod +x ./scripts/smoke-test.sh
+        run: |
+          echo path:
+          pwd
+          chmod +x ./scripts/smoke-test.sh
 
       - name: Stop container
         if: always()
