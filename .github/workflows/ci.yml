@@ -76,7 +76,8 @@ jobs:
 
       - name: Compute image metadata
         id: meta
-        run: echo "short_sha=${GITHUB_SHA::7}" >> "$GITHUB_OUTPUT"
+        run: echo "short_sha=${GITHUB_SHA::7}" >> "$GITHUB_OUTPUT" 
+             cat "$GITHUB_OUTPUT"
 
       - name: Build image
         run: |
