@@ -1,6 +1,7 @@
-ARG APP_VERSION=dev
-
 FROM node:18-alpine
+
+
+
 
 WORKDIR /app
 
@@ -9,6 +10,7 @@ RUN npm ci --omit=dev
 
 COPY . .
 
+ARG APP_VERSION=dev
 ENV NODE_ENV=production \
     APP_VERSION=${APP_VERSION}
 
