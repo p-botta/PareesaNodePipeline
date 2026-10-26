@@ -131,9 +131,9 @@ jobs:
       - name: Run smoke tests
         run: |
           echo ls whole directory:
-          ls
+          ls -la
           echo ls script only
-          ls scripts/
+          ls -la scripts/
           chmod +x ./scripts/smoke-test.sh
 
       - name: Stop container
